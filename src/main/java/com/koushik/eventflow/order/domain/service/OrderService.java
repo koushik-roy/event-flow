@@ -1,6 +1,7 @@
-package com.koushik.eventflow.service;
+package com.koushik.eventflow.order.domain.service;
 
 import com.koushik.eventflow.dto.CreateOrderRequest;
+import com.koushik.eventflow.eventStore.service.EventStoreService;
 import com.koushik.eventflow.order.domain.aggregate.OrderAggregate;
 import com.koushik.eventflow.order.domain.dto.OrderItem;
 import com.koushik.eventflow.order.domain.event.OrderCreated;
@@ -15,6 +16,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderService {
 
+    private final EventStoreService eventStoreService;
+
     public OrderCreated createOrder(CreateOrderRequest request) {
         String orderId = "ORD-" + UUID.randomUUID().toString();
         BigDecimal totalAmount = calculateTotalAmount(request.items());
@@ -22,12 +25,11 @@ public class OrderService {
         OrderAggregate aggregate = new OrderAggregate();
         OrderCreated event = aggregate.create(orderId, request.customerId(), request.items(), totalAmount);
 
+        eventStoreService.persist(event);
         return event;
-
-
     }
 
-    public BigDecimal calculateTotalAmount(List<OrderItem> items) {
+    private BigDecimal calculateTotalAmount(List<OrderItem> items) {
         BigDecimal total = BigDecimal.valueOf(0.00);
         for (OrderItem i : items) {
             total = total.add(i.price().multiply(new BigDecimal(i.quantity())));

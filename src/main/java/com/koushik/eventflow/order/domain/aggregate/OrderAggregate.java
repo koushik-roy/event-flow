@@ -21,22 +21,26 @@ public class OrderAggregate {
             List<OrderItem> items,
             BigDecimal totalAmount
     ) {
-        if (version != 0) {
+        if (this.version != 0) {
             throw new IllegalStateException("Order already exists: " + orderId);
         }
-        OrderCreated event = new OrderCreated(orderId, customerId, items, totalAmount);
+        long nextVersion = this.version + 1;
+        OrderCreated event = new OrderCreated(
+                orderId,
+                nextVersion,
+                customerId,
+                items,
+                totalAmount);
         apply(event);
         return event;
     }
 
-    public void apply(OrderCreated event) {
-        this.orderId = event.orderId();
+    private void apply(OrderCreated event) {
+        this.orderId = event.aggregateId();
         this.customerId = event.customerId();
         this.items = event.items();
         this.totalAmount = event.totalAmount();
-        this.version++;
+        this.version = event.eventVersion();
         this.status = OrderStatus.CREATED;
-
     }
-
 }

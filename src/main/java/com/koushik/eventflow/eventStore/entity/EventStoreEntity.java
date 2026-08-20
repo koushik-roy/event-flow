@@ -1,23 +1,27 @@
-package com.koushik.eventflow.eventStore;
+package com.koushik.eventflow.eventStore.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(
-    name = "event_store",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"aggregate_id", "event_version"}),
-    indexes = {
-        @Index(name = "idx_aggregate_version", columnList = "aggregate_id, event_version")
-    }
+        name = "event_store",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"aggregate_id", "event_version"}),
+        indexes = {
+                @Index(name = "idx_aggregate_version", columnList = "aggregate_id, event_version")
+        }
 )
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventStoreEntity {
 
     @Id
@@ -38,9 +42,12 @@ public class EventStoreEntity {
     @Column(name = "event_version", nullable = false)
     private long eventVersion;
 
-    /** Stored as JSONB in the database. Kept as String here; consider using a JSON mapping type if available. */
+    /**
+     * Stored as JSONB in the database. Kept as String here; consider using a JSON mapping type if available.
+     */
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "event_data", nullable = false, columnDefinition = "jsonb")
-    private String eventData;
+    private Object eventData;
 
 
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamp with time zone DEFAULT CURRENT_TIMESTAMP")

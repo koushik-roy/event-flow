@@ -1,0 +1,14 @@
+package com.koushik.eventflow.eventStore.repository;
+
+import com.koushik.eventflow.eventStore.entity.EventStoreEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.UUID;
+
+@Repository
+public interface EventStoreRepository extends JpaRepository<EventStoreEntity, UUID> {
+
+    List<EventStoreEntity> findByAggregateIdOrderByEventVersionAsc(String aggregateId);
+}
