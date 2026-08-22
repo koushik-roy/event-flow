@@ -1,4 +1,4 @@
-package com.koushik.eventflow.order.domain.event;
+package com.koushik.eventflow.domain.event;
 
 public interface DomainEvent {
 

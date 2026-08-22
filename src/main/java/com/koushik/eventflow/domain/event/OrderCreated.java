@@ -1,7 +1,6 @@
-package com.koushik.eventflow.order.domain.event;
+package com.koushik.eventflow.domain.event;
 
-import com.koushik.eventflow.order.domain.dto.OrderItem;
-import com.koushik.eventflow.util.Constants;
+import com.koushik.eventflow.domain.dto.OrderItem;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.koushik.eventflow.order.domain.dto;
+package com.koushik.eventflow.domain.dto;
 
 import java.math.BigDecimal;
 

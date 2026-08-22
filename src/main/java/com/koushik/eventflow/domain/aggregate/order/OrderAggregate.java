@@ -1,7 +1,7 @@
-package com.koushik.eventflow.order.domain.aggregate;
+package com.koushik.eventflow.domain.aggregate.order;
 
-import com.koushik.eventflow.order.domain.dto.OrderItem;
-import com.koushik.eventflow.order.domain.event.OrderCreated;
+import com.koushik.eventflow.domain.dto.OrderItem;
+import com.koushik.eventflow.domain.event.OrderCreated;
 
 import java.math.BigDecimal;
 import java.util.List;

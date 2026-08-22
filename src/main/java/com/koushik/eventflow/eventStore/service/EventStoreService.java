@@ -3,7 +3,7 @@ package com.koushik.eventflow.eventStore.service;
 import com.koushik.eventflow.eventStore.entity.EventStoreEntity;
 import com.koushik.eventflow.eventStore.eventStoreMapper.EventStoreMapper;
 import com.koushik.eventflow.eventStore.repository.EventStoreRepository;
-import com.koushik.eventflow.order.domain.event.DomainEvent;
+import com.koushik.eventflow.domain.event.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

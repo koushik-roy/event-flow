@@ -1,7 +1,7 @@
 package com.koushik.eventflow.eventStore.eventStoreMapper;
 
 import com.koushik.eventflow.eventStore.entity.EventStoreEntity;
-import com.koushik.eventflow.order.domain.event.DomainEvent;
+import com.koushik.eventflow.domain.event.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;

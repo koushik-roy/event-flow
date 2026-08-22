@@ -1,6 +1,4 @@
-package com.koushik.eventflow.dto;
-
-import com.koushik.eventflow.order.domain.dto.OrderItem;
+package com.koushik.eventflow.domain.dto;
 
 import java.util.List;
 

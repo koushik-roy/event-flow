@@ -3,10 +3,10 @@ spring:
     name: eventflow
   datasource:
     url: jdbc:postgresql://localhost:5432/eventflow
-    username: postgres
-    password: root
+    username: ${DB_USR}
+    password: ${DB_PWD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 
