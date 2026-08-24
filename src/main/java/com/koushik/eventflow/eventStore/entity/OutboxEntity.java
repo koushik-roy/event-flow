@@ -1,7 +1,6 @@
 package com.koushik.eventflow.eventStore.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -10,22 +9,20 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "event_store",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"aggregate_id", "event_version"}),
-        indexes = {
-                @Index(name = "idx_aggregate_version", columnList = "aggregate_id, event_version")
-        }
-)
+@Table(name = "outbox")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventStoreEntity {
+public class OutboxEntity {
 
     @Id
-    @Column(name = "event_id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "outbox_id", nullable = false, updatable = false)
+    private UUID outboxId;
+
+    @Column(name = "event_id", nullable = false, unique = true)
     private UUID eventId;
 
     @Column(name = "aggregate_id", nullable = false)
@@ -37,18 +34,16 @@ public class EventStoreEntity {
     @Column(name = "event_type", nullable = false)
     private String eventType;
 
-    @Min(1)
     @Column(name = "event_version", nullable = false)
     private long eventVersion;
 
-    /**
-     * Stored as JSONB in the database. Kept as String here; consider using a JSON mapping type if available.
-     */
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "event_data", nullable = false, columnDefinition = "jsonb")
     private Object eventData;
 
-
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamp with time zone DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
+
+    @Column(name = "published_at")
+    private OffsetDateTime publishedAt;
 }

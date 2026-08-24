@@ -3,6 +3,7 @@ package com.koushik.eventflow.domain.aggregate.payment;
 import com.koushik.eventflow.domain.event.PaymentCompleted;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class PaymentAggregate {
     private String paymentId;
@@ -21,6 +22,7 @@ public class PaymentAggregate {
         }
         long nextVersion = this.version + 1;
         PaymentCompleted event = new PaymentCompleted(
+                UUID.randomUUID(),
                 paymentId,
                 nextVersion,
                 orderId,

@@ -1,6 +1,6 @@
-package com.koushik.eventflow.eventStore.eventStoreMapper;
+package com.koushik.eventflow.eventStore.mapper;
 
-import com.koushik.eventflow.eventStore.entity.EventStoreEntity;
+import com.koushik.eventflow.eventStore.entity.OutboxEntity;
 import com.koushik.eventflow.domain.event.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,11 +12,11 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class EventStoreMapper {
+public class OutboxMapper {
 
     private final ObjectMapper objectMapper;
 
-    public EventStoreEntity toEventStoreEntity(DomainEvent domainEvent) {
+    public OutboxEntity toOutboxEntity(DomainEvent domainEvent) {
 
         Map<String, Object> eventData = objectMapper.convertValue(
                 domainEvent,
@@ -26,15 +26,17 @@ public class EventStoreMapper {
 
         eventData.remove("aggregateId");
         eventData.remove("eventVersion");
+        eventData.remove("aggregateType");
 
-        return EventStoreEntity.builder()
+        return OutboxEntity.builder()
+                .eventId(domainEvent.eventId())
                 .aggregateId(domainEvent.aggregateId())
                 .aggregateType(domainEvent.aggregateType())
                 .eventType(domainEvent.getClass().getSimpleName())
                 .eventVersion(domainEvent.eventVersion())
                 .eventData(eventData)
                 .createdAt(OffsetDateTime.now())
+                .publishedAt(null)
                 .build();
     }
-
 }

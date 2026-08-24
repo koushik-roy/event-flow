@@ -5,6 +5,7 @@ import com.koushik.eventflow.domain.event.OrderCreated;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class OrderAggregate {
 
@@ -26,6 +27,7 @@ public class OrderAggregate {
         }
         long nextVersion = this.version + 1;
         OrderCreated event = new OrderCreated(
+                UUID.randomUUID(),
                 orderId,
                 nextVersion,
                 customerId,
