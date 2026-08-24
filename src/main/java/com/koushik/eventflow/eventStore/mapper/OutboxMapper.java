@@ -27,6 +27,7 @@ public class OutboxMapper {
         eventData.remove("aggregateId");
         eventData.remove("eventVersion");
         eventData.remove("aggregateType");
+        eventData.remove("eventId");
 
         return OutboxEntity.builder()
                 .eventId(domainEvent.eventId())
