@@ -2,6 +2,7 @@ package com.koushik.eventflow.eventStore.mapper;
 
 import com.koushik.eventflow.eventStore.entity.OutboxEntity;
 import com.koushik.eventflow.domain.event.DomainEvent;
+import com.koushik.eventflow.messaging.dto.EventMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.type.TypeReference;
@@ -39,5 +40,16 @@ public class OutboxMapper {
                 .createdAt(OffsetDateTime.now())
                 .publishedAt(null)
                 .build();
+    }
+
+    public EventMessage toEventMessage(OutboxEntity entity) {
+        return new EventMessage(
+                entity.getEventId(),
+                entity.getAggregateId(),
+                entity.getAggregateType(),
+                entity.getEventType(),
+                entity.getEventVersion(),
+                entity.getEventData()
+        );
     }
 }
