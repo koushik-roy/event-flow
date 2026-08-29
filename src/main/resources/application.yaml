@@ -9,4 +9,12 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  kafka:
+    bootstrap-servers:
+      - localhost:9092
 
+eventflow:
+  publisher:
+    outbox: 5000
+  kafka:
+    topic: domain-events

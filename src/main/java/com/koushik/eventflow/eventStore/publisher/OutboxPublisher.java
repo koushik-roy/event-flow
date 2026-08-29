@@ -45,6 +45,7 @@ public class OutboxPublisher {
 
             future.whenComplete((result, exception) -> {
                 if (exception == null) {
+                    System.out.println("Successfully published event: "+entity.getEventType());
                     entity.setPublishedAt(OffsetDateTime.now());
                     outboxRepository.save(entity);
                 } else {
